@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-/* =========================
-   PHPMailer
-========================= */
+
 require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
 require 'PHPMailer/Exception.php';
@@ -11,9 +9,7 @@ require 'PHPMailer/Exception.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-/* =========================
-   DATABASE
-========================= */
+
 
 $host = "localhost";
 $db = "verdefuturo";
@@ -34,9 +30,7 @@ try {
 
 $messaggio = "";
 
-/* =========================
-   REGISTRAZIONE
-========================= */
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -50,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     } else {
 
-        // controllo email già esistente
+   
         $check = $pdo->prepare("SELECT id FROM utenti WHERE email = ?");
         $check->execute([$email]);
 
@@ -60,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         } else {
 
-            // HASH PASSWORD
+           
             $hash = password_hash($password, PASSWORD_DEFAULT);
 
             // INSERT UTENTE
@@ -71,9 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $stmt->execute([$nome, $email, $hash]);
 
-            /* =========================
-               LOGIN AUTOMATICO
-            ========================= */
+      
 
             $_SESSION['utente'] = [
                 'nome' => $nome,
@@ -81,9 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 'ruolo' => 'utente'
             ];
 
-            /* =========================
-               INVIO EMAIL
-            ========================= */
+        
 
             $mail = new PHPMailer(true);
 
@@ -94,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
 
-                // 🔥 CAMBIA QUI
+             
                 $mail->Username = 'orecchinifederico4@gmail.com';
                 $mail->Password = 'htea tpbc mjzs zfjz';
 
@@ -130,15 +120,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
     ";
 
-    // 👇 DOPO ARRIVA QUESTO
+  
     $mail->send();
 
 } catch (Exception $e) {
 }
 
-            /* =========================
-               REDIRECT
-            ========================= */
+      
 
             header("Location: contatti.php?registrazione=ok");
             exit;
