@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($utente && password_verify($password, $utente['password'])) {
 
-    $_SESSION['utente'] = $utente; // 🔥 FIX IMPORTANTE
+    $_SESSION['utente'] = $utente; 
 
     header("Location: contatti.php");
     exit;
