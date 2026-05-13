@@ -198,7 +198,6 @@ if (isset($_POST['newsletter'])) {
 <td><?= htmlspecialchars($u['nome']) ?></td>
 <td><?= htmlspecialchars($u['email']) ?></td>
 <td class="actions">
-  <a class="btn-edit" href="?edit=<?= $u['id'] ?>">Modifica</a>
   <a class="btn-delete" href="?delete=<?= $u['id'] ?>">Elimina</a>
 </td>
 </tr>
