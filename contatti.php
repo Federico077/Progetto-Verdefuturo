@@ -1,17 +1,13 @@
 <?php
 session_start();
 
-/* =========================
-   PROTEZIONE PAGINA
-========================= */
+
 if (!isset($_SESSION['utente'])) {
     header("Location: login.php?errore=1");
     exit;
 }
 
-/* =========================
-   DB CONNECTION
-========================= */
+
 $pdo = new PDO(
     "mysql:host=localhost;dbname=verdefuturo;charset=utf8mb4",
     "root",
@@ -23,9 +19,7 @@ $errore = "";
 $successo = "";
 $newsletterMsg = "";
 
-/* =========================
-   CREATE UTENTE
-========================= */
+
 if (isset($_POST['create'])) {
 
     $nome = trim($_POST['nome']);
@@ -50,9 +44,7 @@ if (isset($_POST['create'])) {
     }
 }
 
-/* =========================
-   DELETE
-========================= */
+
 if (isset($_GET['delete'])) {
 
     $stmt = $pdo->prepare("DELETE FROM utenti WHERE id=?");
@@ -62,9 +54,7 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-/* =========================
-   UPDATE
-========================= */
+
 if (isset($_POST['update'])) {
 
     $stmt = $pdo->prepare("
@@ -83,9 +73,7 @@ if (isset($_POST['update'])) {
     exit;
 }
 
-/* =========================
-   EDIT
-========================= */
+
 $editUser = null;
 
 if (isset($_GET['edit'])) {
@@ -96,14 +84,10 @@ if (isset($_GET['edit'])) {
     $editUser = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-/* =========================
-   READ UTENTI
-========================= */
+
 $users = $pdo->query("SELECT * FROM utenti ORDER BY id DESC")->fetchAll();
 
-/* =========================
-   NEWSLETTER + EMAIL
-========================= */
+
 require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
 require 'PHPMailer/Exception.php';
@@ -190,7 +174,7 @@ if (isset($_POST['newsletter'])) {
 
 <main class="container">
 
-<!-- UTENTI -->
+
 <section class="card">
 
 <h2>Utenti</h2>
@@ -224,7 +208,7 @@ if (isset($_POST['newsletter'])) {
 
 </section>
 
-<!-- NEWSLETTER -->
+
 <section class="card">
 
 <h2>Newsletter</h2>
