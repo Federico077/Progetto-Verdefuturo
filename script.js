@@ -1,6 +1,4 @@
-/* =========================
-FILE: script.js
-========================= */
+
 
 document.getElementById('caricaDati')
 .addEventListener('click', async () => {
