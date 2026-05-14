@@ -45,7 +45,12 @@ if (isset($_POST['create'])) {
 }
 
 
-if (isset($_GET['delete'])) {
+
+
+if (
+    isset($_GET['delete']) &&
+    $_SESSION['ruolo'] === 'admin'
+) {
 
     $stmt = $pdo->prepare("DELETE FROM utenti WHERE id=?");
     $stmt->execute([$_GET['delete']]);
@@ -189,7 +194,14 @@ if (isset($_POST['newsletter'])) {
 
 <table>
 <tr>
-<th>ID</th><th>Nome</th><th>Email</th><th>Azioni</th>
+<th>ID</th>
+<th>Nome</th>
+<th>Email</th>
+<th>Azione</th>
+
+<?php if ($_SESSION['ruolo'] === 'admin'): ?>
+<th>Azioni</th>
+<?php endif; ?>
 </tr>
 
 <?php foreach($users as $u): ?>
@@ -197,9 +209,32 @@ if (isset($_POST['newsletter'])) {
 <td><?= $u['id'] ?></td>
 <td><?= htmlspecialchars($u['nome']) ?></td>
 <td><?= htmlspecialchars($u['email']) ?></td>
-<td class="actions">
-  <a class="btn-delete" href="?delete=<?= $u['id'] ?>">Elimina</a>
+
+<td>
+<?php
+if ($u['ruolo'] === 'admin') {
+    echo "Admin";
+} else {
+   echo "<span class='read-only'>Solo lettura</span>";
+}
+?>
 </td>
+
+<?php if ($_SESSION['ruolo'] === 'admin'): ?>
+
+<td>
+
+<a class="btn-delete"
+href="?delete=<?= $u['id'] ?>"
+onclick="return confirm('Eliminare questo utente?')">
+
+Elimina
+
+</a>
+
+</td>
+
+<?php endif; ?>
 </tr>
 <?php endforeach; ?>
 
